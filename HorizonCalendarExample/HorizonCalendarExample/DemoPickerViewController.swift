@@ -22,29 +22,38 @@ final class DemoPickerViewController: UIViewController {
 
   // MARK: Internal
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    title = "Mega Calendar"
+        title = "Select Day Range"
 
-    view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemBackground
 
-    view.addSubview(tableView)
-    view.addSubview(monthsLayoutPicker)
-    tableView.translatesAutoresizingMaskIntoConstraints = false
-    monthsLayoutPicker.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      monthsLayoutPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      monthsLayoutPicker.topAnchor.constraint(
-        equalTo: view.layoutMarginsGuide.topAnchor,
-        constant: 8),
+        view.addSubview(tableView)
+        view.addSubview(monthsLayoutPicker)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        monthsLayoutPicker.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            monthsLayoutPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            monthsLayoutPicker.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 8),
 
-      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.topAnchor.constraint(equalTo: monthsLayoutPicker.bottomAnchor, constant: 8),
-      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-    ])
-  }
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: monthsLayoutPicker.bottomAnchor, constant: 8),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+
+        let selectedDemoDestination = verticalDemoDestinations.first(where: { $0.destinationType == DayRangeSelectionDemoViewController.self })!
+        let demoViewController = selectedDemoDestination.destinationType.init(
+            monthsLayout: .vertical(
+                options: VerticalMonthsLayoutOptions(
+                    pinDaysOfWeekToTop: false,
+                    alwaysShowCompleteBoundaryMonths: false,
+                    scrollsToFirstMonthOnStatusBarTap: false)))
+
+        navigationController?.pushViewController(demoViewController, animated: false)
+    }
+
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(true)
